@@ -12,7 +12,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.jws.soap.SOAPBinding;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -49,16 +52,11 @@ public class Mybatisplus01ApplicationTests {
         //  userMapper.selectList(new );
 
 
-
-
-
-
-
 //这里要注意的是： 必须要设置.eq()设置id值，明确是update哪条数据，不加这个条件就会所有数据全部更新，这个一定要注意。
         UpdateWrapper<User> userUpdateWrapper = new UpdateWrapper<>();
 
         userUpdateWrapper.set("user_name", "011111MyabtisUdateWrapper修改的后的值");
-        userUpdateWrapper.eq("user_id",3);
+        userUpdateWrapper.eq("user_id", 3);
         User user = new User();
 
         int update = userMapper.update(user, userUpdateWrapper);
@@ -71,9 +69,9 @@ public class Mybatisplus01ApplicationTests {
 
     }
 
-//测试插入数据
+    //测试插入数据
     @Test
-    public void testInsert(){
+    public void testInsert() {
 
         User user = new User();
         user.setUserName("mwwwwws");
@@ -81,24 +79,22 @@ public class Mybatisplus01ApplicationTests {
         userMapper.insert(user);
 
 
-
     }
 
 
     //测试删除一条数据
     @Test
-    public void testDelete(){
+    public void testDelete() {
 
-       // int i = userMapper.deleteById(2);
+        // int i = userMapper.deleteById(2);
 
 
         QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
-        userQueryWrapper.eq("user_id",4);
+        userQueryWrapper.eq("user_id", 4);
 
         int delete = userMapper.delete(userQueryWrapper);
 
         System.out.println(delete);
-
 
 
         //下面这个UpdateWrapper不能用于根据id删除数据
@@ -109,7 +105,97 @@ public class Mybatisplus01ApplicationTests {
 
     }
 
+    @Test
+    public void testBooleanfunction() {
 
+//        QueryWrapper<User> userQueryWrapper = new QueryWrapper<>();
+//
+//        List<User> users = userMapper.selectList(userQueryWrapper);
+//
+//        for(User user:users){
+//            System.out.println(user);
+//        }
+
+//
+//        QueryWrapper<User> userQueryWrapper = new QueryWrapper<User>();
+//
+//        QueryWrapper<User> in = userQueryWrapper.notIn(true
+//                , "user_name", "mwwwwws");
+
+//        List<User> users = userMapper.selectList(in);
+//
+//        for(User user:users){
+//
+//            System.out.println(user);
+//
+//        }
+
+//        Integer integer = userMapper.selectCount(userQueryWrapper);
+//        System.out.println(integer);
+
+        //????????????????????????????????????????????????????????????????????????????????????
+        //测试selectByMap方法????/  vuserMapper.selectByMap(查询多条数据都有问题？？？？？？？？？？？？
+        //????????????????????????????????????????????????????????????????????????????????????
+
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<User>();
+        //
+        //这里一定要注意的是。0r()隔开不同的查询条件，说明这是查询两个不同的字，返回的是两条数据，
+        //若果直接都是.eq.eq() 这其实就是查询一条数据，表明的查询的这条数据同时满足.eq().eq(）这几个条件。
+        userQueryWrapper.eq("user_name", "ad").or().eq("user_password","5555");
+
+        List<User> users = userMapper.selectList(userQueryWrapper);
+        System.out.println(users);
+
+
+//        Map map1 = new HashMap<String, Object>();
+//        map1.put("user_name", "ad");
+////        map1.put("user_name", "mwwwwws");
+//        map1.put("user_password","5555");
+//        List list = userMapper.selectByMap(map1);
+//        System.out.println(list);
+
+//????????????????????????????????????????????????????????????????????????????????????
+  //      QueryWrapper<User> userQueryWrapper = new QueryWrapper<User>();
+        // userQueryWrapper.eq("user_name", "mwwwwws");
+        // userQueryWrapper.eq("user_password","5555") ;
+   //     Map<String, Object> map2 = new HashMap<String, Object>();
+  //      map2.put("user_name", "mwwwwws");
+  //      map2.put("user_password","5555");
+        //userQueryWrapper.allEq(map2);
+   //     List<User> userList = userMapper.selectByMap(map2);
+//
+  //      System.out.println(userList);
+
+//????????????????????????????????????????????????????????????????????????????????????
+
+//删除几个id对应的数据
+//        List<Integer> idList = new ArrayList<Integer>();
+//        idList.add(5);
+//        idList.add(6);
+//
+//        int i = userMapper.deleteBatchIds(idList);
+//        System.out.println(i);
+
+
+    }
+
+//x下面这个方法，map放两个条件，为什么就查询不出来多条数据呢？put只放一个就可以查询出来单条数据。、、//
+    //xia下面测试方式是错误的，找了半天也不知解决办法，先放着，可以用selectList来查询多条数据。
+    @Test
+    public void  testSelectByMaps(){
+//
+
+        QueryWrapper<User> userQueryWrapper = new QueryWrapper<User>();
+
+        Map<String, Object> columnMap = new HashMap<String, Object>();
+        columnMap.put("user_name" ,"mwwwwws");
+        columnMap.put("user_password","5555");
+      //  map.put();
+        List<User> users = userMapper.selectByMap(columnMap);
+        System.out.println(users);
+        System.out.println(users.size());
+
+    }
 
 
 }
