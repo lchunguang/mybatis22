@@ -13,4 +13,14 @@
     <!--@mbg.generated-->
     role_id, role_name, user_id, role_flag, role_status
   </sql>
+
+  <select id="selectRolesBYRoleIdOrRoleName" resultMap="BaseResultMap">
+
+    select * from role where role_id=#{roleId} or role_name=#{roleName,jdbcType=VARCHAR}
+
+
+  </select>
+
+
+
 </mapper>

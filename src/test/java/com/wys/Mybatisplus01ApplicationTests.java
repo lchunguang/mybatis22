@@ -238,9 +238,14 @@ public class Mybatisplus01ApplicationTests {
     @Test
     public void ftestPermisiioin(){
 
-        Permission permission = permissionMapper.selectById(2);
+       // Permission permission = permissionMapper.selectById(2);
 
-        System.out.println(permission);
+        //System.out.println(permission);
+
+
+        List<Role> roles = roleMapper.selectRolesBYRoleIdOrRoleName("普通员工", 2);
+
+        System.out.println(roles);
 
     }
 
