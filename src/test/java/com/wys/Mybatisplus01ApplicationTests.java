@@ -1,9 +1,12 @@
 package com.wys;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.wys.mapper.PermissionMapper;
+import com.wys.mapper.RoleMapper;
 import com.wys.mapper.UserMapper;
+import com.wys.model.Permission;
+import com.wys.model.Role;
 import com.wys.model.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,11 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.jws.soap.SOAPBinding;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -24,6 +23,11 @@ public class Mybatisplus01ApplicationTests {
     @Autowired
     UserMapper userMapper;
 
+    @Autowired
+    RoleMapper roleMapper;
+
+    @Autowired
+    PermissionMapper permissionMapper;
     @Test
     public void contextLoads() {
     }
@@ -181,21 +185,63 @@ public class Mybatisplus01ApplicationTests {
 
 //x下面这个方法，map放两个条件，为什么就查询不出来多条数据呢？put只放一个就可以查询出来单条数据。、、//
     //xia下面测试方式是错误的，找了半天也不知解决办法，先放着，可以用selectList来查询多条数据。
-    @Test
-    public void  testSelectByMaps(){
+ //   @Test
+//    public void  testSelectByMaps(){
+////
 //
+//        QueryWrapper<User> userQueryWrapper = new QueryWrapper<User>();
+//
+//        Map<String, Object> columnMap = new HashMap<String, Object>();
+//        columnMap.put("user_name" ,"mwwwwws");
+//        columnMap.put("user_password","5555");
+//      //  map.put();
+//        List<User> users = userMapper.selectByMap(columnMap);
+//        System.out.println(users);
+//        System.out.println(users.size());
+//
+//    }
 
-        QueryWrapper<User> userQueryWrapper = new QueryWrapper<User>();
 
-        Map<String, Object> columnMap = new HashMap<String, Object>();
-        columnMap.put("user_name" ,"mwwwwws");
-        columnMap.put("user_password","5555");
-      //  map.put();
-        List<User> users = userMapper.selectByMap(columnMap);
-        System.out.println(users);
-        System.out.println(users.size());
+    @Test
+    public void test01(){
+
+//        User user = new User();
+//        user.setUserName("1");
+//
+//        int i = userMapper.insert(user);
+//
+//        System.out.println(i);
+//        System.out.println(user);
+
+        User user = new User();
+        user.setUserId(12);
+        user.setUserPassword("123");
+        user.setUserName("tt");
+
+        userMapper.updateById(user);
+
 
     }
 
+
+
+    @Test
+    public void ftestRole(){
+
+        Role role = roleMapper.selectById(2);
+
+        System.out.println(role);
+
+    }
+
+
+    @Test
+    public void ftestPermisiioin(){
+
+        Permission permission = permissionMapper.selectById(2);
+
+        System.out.println(permission);
+
+    }
 
 }
